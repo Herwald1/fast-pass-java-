@@ -80,6 +80,17 @@ class user {
 	}
 	public void createAccount() {
 		
+		String fname, lname, username, userpass;
+		System.out.println("Please enter your first name:");
+		fname = input.next();
+		System.out.println("Please enter your last name:");
+		lname = input.next();
+		System.out.println("What would you like your Username to be?");
+		username= input.next();
+		System.out.println("Ok, lastly lets create the password that will protect all others");
+		userpass= input.next();
+		
+		
 	}
 	
 }
