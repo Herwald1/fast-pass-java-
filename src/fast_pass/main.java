@@ -91,24 +91,19 @@ class user {
 		userpass= input.next();
 		
 		try {
-   		 Connection connect = DriverManager.getConnection(DB_URL, "root", "usbw");
+	   		Connection connect = DriverManager.getConnection(DB_URL, "root", "usbw");
+	   		String sql = "INSERT INTO user_details VALUES(?,?,?,?,?)";
+	   		PreparedStatement stmt = connect.prepareStatement(sql);	
+	   		stmt.setString (1, "0");
+	   		stmt.setString (2, fname);
+	   		stmt.setString (3, lname);
+	   		stmt.setString (4, username);
+	   		stmt.setString (5, userpass);
+	   		stmt.execute();
+	   		connect.close();
    		
-   		
-   		String sql = "INSERT INTO user_details VALUES(?,?,?,?,?)";
-   		PreparedStatement stmt = connect.prepareStatement(sql);
-   		
-   		stmt.setString (1, "0");
-   		stmt.setString (2, fname);
-   		stmt.setString (3, lname);
-   		stmt.setString (4, username);
-   		stmt.setString (5, userpass);
-   		
-   		stmt.execute();
-
-   		connect.close();
-   		
-   	 }catch(SQLException sqlEx){
-   		sqlEx.printStackTrace();
+   	 	}catch(SQLException sqlEx){
+	   		sqlEx.printStackTrace();
 			System.err.println("Error working with Database");
    	 }
 		
