@@ -2,6 +2,13 @@ package fast_pass;
 
 import java.util.Scanner;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 class user {
 	private String name;
 	private String password;
@@ -42,9 +49,34 @@ class user {
 		
 	}
 	public void login() {
-		String username, userpass, correctPass, correctUser;
+		String username, userpass, correctPass = null, correctUser = null;
+		String DB_URL = "jdbc:mysql://localhost:3306/fastpass_database";
 		
 		System.out.println("Please enter your username");
+		username = input.next();
+		System.out.println("Please enter your password");
+		userpass = input.next();
+		
+		try {
+    		Connection connect = DriverManager.getConnection(DB_URL, "root","usbw");
+    		String sql = "SELECT username, password FROM user_details WHERE username = ?";
+    		PreparedStatement stmt = connect.prepareStatement(sql);
+    		stmt.setString(1, username);
+    		ResultSet rs = stmt.executeQuery();
+    		while(rs.next()) {
+    			correctUser = rs.getString("username");
+    			correctPass = rs.getString("password");
+    		}			
+    	}catch(SQLException sqlEx){
+    		sqlEx.printStackTrace();
+ 			System.err.println("Error working with Database");
+    	}
+		if(username.equals(correctUser) && userpass.equals(correctPass)) {
+	    	System.out.println("Success!");
+    	}else {
+    		System.out.println("login failed!");
+    	}
+		
 	}
 	public void createAccount() {
 		
